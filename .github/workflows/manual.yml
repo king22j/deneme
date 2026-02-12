@@ -1,0 +1,27 @@
+name: Manuel Ban Kontrolü
+
+on:
+  workflow_dispatch:      # Bu satır, "Sadece butona basınca çalış" demektir.
+
+jobs:
+  check_bans:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Depoyu Çek
+        uses: actions/checkout@v3
+
+      - name: Python Kur
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Kütüphaneleri Yükle
+        run: pip install -r requirements.txt
+
+      - name: Ban Kontrolünü Başlat
+        env:
+          STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          DATABASE_ID: ${{ secrets.DATABASE_ID }}
+        run: python main.py
